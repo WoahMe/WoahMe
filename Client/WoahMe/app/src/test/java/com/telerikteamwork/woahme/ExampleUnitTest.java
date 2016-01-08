@@ -1,4 +1,4 @@
-package woahme.teamwork.com.woahme;
+package com.telerikteamwork.woahme;
 
 import org.junit.Test;
 
