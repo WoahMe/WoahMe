@@ -1,11 +1,28 @@
 package com.telerikteamwork.woahme.Models;
 
 public class Place {
-    public int Id;
+    private int Id;
+    private String Title;
+    private String ImageSource;
+    private String ImageOrientation;
 
-    public String Title;
+    public int get_id()
+    {
+        return this.Id;
+    }
 
-    public String ImageSource;
+    public String get_Title()
+    {
+        return this.Title;
+    }
 
-    public String ImageOrientation;
+    public String get_ImageSource()
+    {
+        return this.ImageSource;
+    }
+
+    public String get_ImageOrientation()
+    {
+        return this.ImageOrientation;
+    }
 }
