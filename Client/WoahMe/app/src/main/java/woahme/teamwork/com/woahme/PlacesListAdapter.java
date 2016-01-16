@@ -39,12 +39,12 @@ public class PlacesListAdapter extends ArrayAdapter<PlaceResponseModel> {
 
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.id = ++currentId;
             viewHolder.image = (NetworkImageView) view.findViewById(R.id.image_view);
             view.setTag(viewHolder);
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
+        viewHolder.id = items.get(position).getId();
         viewHolder.image.setImageUrl(items.get(position).getImageSource(), SingletonRequestQueue.getInstance(this.context).getImageLoader());
         Log.i("IMAGE URL: ", items.get(position).getImageSource());
 

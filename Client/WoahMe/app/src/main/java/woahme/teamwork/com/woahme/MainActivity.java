@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.discover_new_places) {
 
+        } else if (id == R.id.add_new_place) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment, new AddPlaceFragment())
+                    .commit();
         } else if (id == R.id.visited_places) {
 
         } else if (id == R.id.my_profile) {
