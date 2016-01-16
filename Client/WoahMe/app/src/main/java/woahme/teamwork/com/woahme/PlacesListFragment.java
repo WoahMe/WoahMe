@@ -29,16 +29,8 @@ public class PlacesListFragment extends Fragment {
 
     private GridView coolPlacesList;
     private ArrayAdapter adapter;
-    private Response.ErrorListener defaultVolleyErrorListener;
 
     public PlacesListFragment() {
-        this.defaultVolleyErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Log.i("FRAGMENT: ", "REQUEST ERROR");
-            }
-        };
     }
 
     @Override
@@ -47,10 +39,8 @@ public class PlacesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
         coolPlacesList = (GridView) view.findViewById(R.id.cool_places_list);
 
-        String url = "http://192.168.0.195:15334/api/places";
-
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i("FRAGMENT: ", response.toString());
@@ -60,7 +50,7 @@ public class PlacesListFragment extends Fragment {
                         ArrayList<Place> places = gson.fromJson(response.toString(), datasetListType);
                         adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, places);
                     }
-                }, defaultVolleyErrorListener);
+                }, SingletonRequestQueue.GetDefaultErrorListener());
 
         // Access the RequestQueue through your singleton class.
         SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);

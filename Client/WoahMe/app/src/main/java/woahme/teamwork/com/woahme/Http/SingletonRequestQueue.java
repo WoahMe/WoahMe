@@ -1,10 +1,22 @@
 package woahme.teamwork.com.woahme.Http;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SingletonRequestQueue {
     private static SingletonRequestQueue mInstance;
@@ -28,7 +40,7 @@ public class SingletonRequestQueue {
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
@@ -43,5 +55,20 @@ public class SingletonRequestQueue {
 
     public ImageLoader getImageLoader() {
         return mImageLoader;
+    }
+
+    public static Response.ErrorListener GetDefaultErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+    }
+
+    public static final <T> List<T> ParseResponse(String response, Class<T> type) {
+        final T jsonToObject = new Gson().fromJson(response, type);
+
+        return Arrays.asList(jsonToObject);
     }
 }
