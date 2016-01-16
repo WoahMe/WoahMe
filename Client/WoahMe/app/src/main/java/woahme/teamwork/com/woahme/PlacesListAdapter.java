@@ -12,16 +12,16 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
-import woahme.teamwork.com.woahme.Models.Place;
+import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
-public class PlacesListAdapter extends ArrayAdapter<Place> {
+public class PlacesListAdapter extends ArrayAdapter<PlaceResponseModel> {
 
     private int currentId;
     private Context context;
     private int resource;
-    ArrayList<Place> items;
+    ArrayList<PlaceResponseModel> items;
 
-    public PlacesListAdapter(Context context, int resource, ArrayList<Place> items) {
+    public PlacesListAdapter(Context context, int resource, ArrayList<PlaceResponseModel> items) {
         super(context, resource, items);
 
         this.currentId = 0;

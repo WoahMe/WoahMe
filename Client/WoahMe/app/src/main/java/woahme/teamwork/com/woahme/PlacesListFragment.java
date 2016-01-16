@@ -11,7 +11,6 @@ import android.widget.GridView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
-import woahme.teamwork.com.woahme.Models.Place;
+import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
 public class PlacesListFragment extends Fragment {
 
@@ -46,8 +45,8 @@ public class PlacesListFragment extends Fragment {
                         Log.i("FRAGMENT: ", response.toString());
                         Gson gson = new Gson();
                         // create the type for the collection. In this case define that the collection is of type Dataset
-                        Type datasetListType = new TypeToken<Collection<Place>>() {}.getType();
-                        ArrayList<Place> places = gson.fromJson(response.toString(), datasetListType);
+                        Type datasetListType = new TypeToken<Collection<PlaceResponseModel>>() {}.getType();
+                        ArrayList<PlaceResponseModel> places = gson.fromJson(response.toString(), datasetListType);
                         adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, places);
                     }
                 }, SingletonRequestQueue.GetDefaultErrorListener());

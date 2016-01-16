@@ -24,8 +24,8 @@ import woahme.teamwork.com.woahme.Models.LoginRequestModel;
 public class LoginActivity extends Activity implements View.OnClickListener {
     Context context;
 
-    TextView email;
-    TextView password;
+    TextView emailView;
+    TextView passwordView;
     Button loginButton;
     TextView registerView;
 
@@ -35,8 +35,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        email = (TextView) this.findViewById(R.id.input_email);
-        password = (TextView) this.findViewById(R.id.input_password);
+        emailView = (TextView) this.findViewById(R.id.input_email);
+        passwordView = (TextView) this.findViewById(R.id.input_password);
 
         loginButton = (Button) this.findViewById(R.id.btn_login);
         loginButton.setOnClickListener(this);
@@ -64,24 +64,32 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                login(email.getText().toString(), password.getText().toString());
+                String email = emailView.getText().toString();
+                String password = passwordView.getText().toString();
+
+                LoginUser(email, password, this.GetLoginCallback());
                 break;
             case R.id.link_register:
                 break;
         }
     }
 
-    public void login(String username, String password) {
+    public void LoginUser(String username, String password, Response.Listener callback) {
         SingletonRequestQueue.getInstance(this).addToRequestQueue(new JsonObjectRequest(
                 Request.Method.POST,
                 Endpoints.LoginEndpoint,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        List<LoginRequestModel> items =
-                                SingletonRequestQueue.ParseResponse(response.toString(), LoginRequestModel.class);
-                    }
-                }, SingletonRequestQueue.GetDefaultErrorListener()));
+                callback,
+                SingletonRequestQueue.GetDefaultErrorListener()));
+    }
 
+    public Response.Listener GetLoginCallback() {
+        return new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                List<LoginRequestModel> items =
+                        SingletonRequestQueue.ParseResponse(response.toString(), LoginRequestModel.class);
+
+            }
+        };
     }
 }
