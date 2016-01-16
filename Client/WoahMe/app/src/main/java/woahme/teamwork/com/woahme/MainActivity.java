@@ -8,9 +8,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
+import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
 import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class MainActivity extends AppCompatActivity
@@ -41,7 +46,15 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
 
+        /* TESTING
         Notificator.Notify(this, "zdr", "mili4ki");
+        PlaceDbHelper helper = new PlaceDbHelper(this);
+        helper.add("asdasd", "Horizontal", "asd.asd.asd");
+        ArrayList<PlaceResponseModel> visited = helper.read();
+        for (int i = 0; i < visited.size(); i++) {
+            Log.e("Places: ", visited.get(i).toString());
+        }
+        */
     }
 
     @Override

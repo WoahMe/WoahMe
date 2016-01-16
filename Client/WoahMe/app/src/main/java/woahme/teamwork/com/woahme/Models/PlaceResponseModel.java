@@ -29,4 +29,16 @@ public class PlaceResponseModel {
     public String getImageOrientation() {
         return this.imageOrientation;
     }
+
+    public String toString() {
+        return "{" +
+                Integer.toString(this.id) +
+                ", " +
+                this.title +
+                ", " +
+                this.imageOrientation +
+                ", " +
+                this.imageSource +
+                "}";
+    }
 }
