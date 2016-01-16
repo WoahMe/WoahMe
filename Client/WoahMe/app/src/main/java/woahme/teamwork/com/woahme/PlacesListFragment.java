@@ -39,21 +39,21 @@ public class PlacesListFragment extends Fragment {
         coolPlacesList = (GridView) view.findViewById(R.id.cool_places_list);
 
 
-        // TODO: UNSHIT
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        // create the type for the collection. In this case define that the collection is of type Dataset
-                        Type datasetListType = new TypeToken<Collection<PlaceResponseModel>>() {}.getType();
-                        ArrayList<PlaceResponseModel> places = gson.fromJson(response.toString(), datasetListType);
-                        adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, places);
-                    }
-                }, SingletonRequestQueue.GetDefaultErrorListener());
+//        // TODO: UNSHIT
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+//                (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        Gson gson = new Gson();
+//                        // create the type for the collection. In this case define that the collection is of type Dataset
+//                        Type datasetListType = new TypeToken<Collection<PlaceResponseModel>>() {}.getType();
+//                        ArrayList<PlaceResponseModel> places = gson.fromJson(response.toString(), datasetListType);
+//                        adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, places);
+//                    }
+//                }, SingletonRequestQueue.GetDefaultErrorListener());
 
         // Access the RequestQueue through your singleton class.
-        SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);
+        //SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);
         coolPlacesList.setAdapter(adapter);
 
         return view;

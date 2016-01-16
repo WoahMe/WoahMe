@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_menu_camera"
         android:title="Visited places." />
     <item
+        android:id="@+id/add_new_place"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="Add your place." />
+    <item
         android:id="@+id/my_profile"
         android:icon="@drawable/ic_menu_camera"
         android:title="My profile." />
