@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import woahme.teamwork.com.woahme.Utilities.Notificator;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
+
+        Notificator.Notificate(this, "zdr", "mili4ki");
     }
 
     @Override
