@@ -1,4 +1,4 @@
-package com.telerikteamwork.woahme;
+package woahme.teamwork.com.woahme;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

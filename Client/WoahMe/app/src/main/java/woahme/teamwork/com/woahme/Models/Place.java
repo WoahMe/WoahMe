@@ -1,4 +1,4 @@
-package com.telerikteamwork.woahme.Models;
+package woahme.teamwork.com.woahme.Models;
 
 public class Place {
     private int Id;
@@ -6,22 +6,22 @@ public class Place {
     private String ImageSource;
     private String ImageOrientation;
 
-    public int get_id()
+    public int getId()
     {
         return this.Id;
     }
 
-    public String get_Title()
+    public String getTitle()
     {
         return this.Title;
     }
 
-    public String get_ImageSource()
+    public String getImageSource()
     {
         return this.ImageSource;
     }
 
-    public String get_ImageOrientation()
+    public String getImageOrientation()
     {
         return this.ImageOrientation;
     }

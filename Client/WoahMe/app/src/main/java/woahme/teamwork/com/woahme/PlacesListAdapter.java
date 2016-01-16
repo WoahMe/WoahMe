@@ -1,16 +1,18 @@
-package com.telerikteamwork.woahme;
+package woahme.teamwork.com.woahme;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.telerikteamwork.woahme.Models.Place;
 
 import java.util.ArrayList;
+
+import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
+import woahme.teamwork.com.woahme.Models.Place;
 
 public class PlacesListAdapter extends ArrayAdapter<Place> {
 
@@ -39,12 +41,12 @@ public class PlacesListAdapter extends ArrayAdapter<Place> {
 
             viewHolder.id = ++currentId;
             viewHolder.image = (NetworkImageView) view.findViewById(R.id.image_view);
-
             view.setTag(viewHolder);
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        //viewHolder.image. = items[position];
+        viewHolder.image.setImageUrl(items.get(position).getImageSource(), SingletonRequestQueue.getInstance(this.context).getImageLoader());
+        Log.i("IMAGE URL: ", items.get(position).getImageSource());
 
         return view;
     }
