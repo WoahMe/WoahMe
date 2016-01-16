@@ -1,8 +1,5 @@
 package woahme.teamwork.com.woahme;
 
-/**
- * Created by newmast on 1/16/2016.
- */
 public class Endpoints {
     private static final String BaseUrl = "https://ancient-temple-4432.herokuapp.com";
 

@@ -1,4 +1,4 @@
-package woahme.teamwork.com.woahme.Storage;
+/*package woahme.teamwork.com.woahme.Storage;
 
 import com.orm.SugarRecord;
 
@@ -27,3 +27,4 @@ public class SqliteStorage <T extends SugarRecord> {
         old.save();
     }
 }
+*/

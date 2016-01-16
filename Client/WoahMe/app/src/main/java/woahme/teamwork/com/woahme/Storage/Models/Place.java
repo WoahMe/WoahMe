@@ -1,4 +1,4 @@
-package woahme.teamwork.com.woahme.Storage.Models;
+/*package woahme.teamwork.com.woahme.Storage.Models;
 
 import com.orm.SugarRecord;
 
@@ -15,4 +15,4 @@ public class Place extends SugarRecord {
         this.imageSource = imageSource;
         this.imageOrientation = imageOrientation;
     }
-}
+}*/
