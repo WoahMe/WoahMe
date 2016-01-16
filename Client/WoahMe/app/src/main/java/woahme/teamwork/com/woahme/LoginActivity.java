@@ -64,6 +64,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                finish();
                 String email = emailView.getText().toString();
                 String password = passwordView.getText().toString();
 

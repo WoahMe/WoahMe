@@ -7,10 +7,10 @@ public class Place extends SugarRecord {
     private String imageSource;
     private String imageOrientation;
 
-    public Place(){
+    public Place() {
     }
 
-    public Place(String title, String imageSource, String imageOrientation){
+    public Place(String title, String imageSource, String imageOrientation) {
         this.title = title;
         this.imageSource = imageSource;
         this.imageOrientation = imageOrientation;

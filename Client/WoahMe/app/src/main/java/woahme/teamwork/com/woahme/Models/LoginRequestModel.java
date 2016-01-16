@@ -6,12 +6,10 @@ package woahme.teamwork.com.woahme.Models;
 public class LoginRequestModel {
     private String username;
     private String password;
-    private String grant_type;
 
     public LoginRequestModel(String username, String password) {
         this.username = username;
         this.password = password;
-        this.grant_type = "password";
     }
 
     public String getUsername() {

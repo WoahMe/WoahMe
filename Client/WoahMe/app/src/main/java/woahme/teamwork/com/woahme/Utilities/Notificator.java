@@ -6,7 +6,7 @@ import br.com.goncalves.pugnotification.notification.PugNotification;
 import woahme.teamwork.com.woahme.R;
 
 public final class Notificator {
-    public static void Notificate(Context context, String title, String message)
+    public static void Notify(Context context, String title, String message)
     {
         PugNotification.with(context)
                 .load()

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(loginIntent);
+        startActivityForResult(loginIntent, 0);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
 
-        Notificator.Notificate(this, "zdr", "mili4ki");
+        Notificator.Notify(this, "zdr", "mili4ki");
     }
 
     @Override

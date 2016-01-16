@@ -2,7 +2,7 @@ package woahme.teamwork.com.woahme.Storage;
 
 import com.orm.SugarRecord;
 
-public class  SqliteStorage<T extends SugarRecord> {
+public class SqliteStorage <T extends SugarRecord> {
     final Class<T> typeParameterClass;
 
     public SqliteStorage(Class<T> typeParameterClass) {

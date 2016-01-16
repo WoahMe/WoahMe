@@ -38,11 +38,12 @@ public class PlacesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
         coolPlacesList = (GridView) view.findViewById(R.id.cool_places_list);
 
+
+        // TODO: UNSHIT
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("FRAGMENT: ", response.toString());
                         Gson gson = new Gson();
                         // create the type for the collection. In this case define that the collection is of type Dataset
                         Type datasetListType = new TypeToken<Collection<PlaceResponseModel>>() {}.getType();
