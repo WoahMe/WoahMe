@@ -115,17 +115,17 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         JSONObject body = ImgurRequest.generateUploadRequestBody(imageBase64);
 
         SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(
-                new ImgurRequest(
-                        Request.Method.POST,
-                        Endpoints.ImgurUploadEndpoint,
-                        body,
-                        getImgurUploadResponseListener(),
-                        SingletonRequestQueue.GetDefaultErrorListener()
-                )
+            new ImgurRequest(
+                Request.Method.POST,
+                Endpoints.ImgurUploadEndpoint,
+                body,
+                getPhotoUploadResponseListener(),
+                SingletonRequestQueue.GetDefaultErrorListener()
+            )
         );
     }
 
-    public Response.Listener getImgurUploadResponseListener() {
+    public Response.Listener getPhotoUploadResponseListener() {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
