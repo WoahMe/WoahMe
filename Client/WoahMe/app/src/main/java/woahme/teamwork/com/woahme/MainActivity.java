@@ -24,8 +24,7 @@ import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
 import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        PlacesListFragment.OnPlaceSelectListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     FloatingActionButton fab;
 
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivityForResult(loginIntent, 0);
+        //startActivityForResult(loginIntent, 0);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,10 +60,11 @@ public class MainActivity extends AppCompatActivity
         PlaceDbHelper helper = new PlaceDbHelper(this);
         helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
         helper.add("asdasd", "Horizontal", "asd.asd.asd", "here got gf", "alucard", "gf land", "1", "1", "1");
-        ArrayList<PlaceModel> visited = helper.read();
-        for (int i = 0; i < visited.size(); i++) {
+        String visited = helper.read().toString();
+        Log.e("DB CONTENT", visited);
+        /*for (int i = 0; i < visited.size(); i++) {
             Log.e("Places: ", visited.get(i).toString());
-        }
+        }*/
     }
 
     @Override
@@ -125,32 +125,5 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(container, fragment)
                 .commit();
-    }
-
-    @Override
-    public void onPlaceSelected(PlaceModel place) {
-        PlaceDetailsFragment placeDetailsFragment = (PlaceDetailsFragment)
-                getSupportFragmentManager().findFragmentById(R.id.place_details_fragment);
-
-        if (placeDetailsFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
-            placeDetailsFragment.updateArticleView(place);
-        } else {
-            // Otherwise, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected article
-            /*Bundle args = new Bundle();
-            Log.e("AUTISMO", place.getTitle());
-            args.putString("title", "asd");
-            args.putString("imageSource", "asdasd");*/
-
-            PlaceDetailsFragment newFragment = new PlaceDetailsFragment();
-            newFragment.updateArticleView(place);
-            //newFragment.setArguments(args);
-
-            ReplaceFragment(R.id.main_fragment, newFragment);
-        }
     }
 }

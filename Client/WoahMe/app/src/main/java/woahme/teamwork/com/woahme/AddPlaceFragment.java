@@ -1,10 +1,13 @@
 package woahme.teamwork.com.woahme;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,12 +21,16 @@ import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.dd.morphingbutton.MorphingButton;
 import com.dd.morphingbutton.impl.IndeterminateProgressButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurRequest;
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurResponseModel;
@@ -43,7 +50,6 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
 
     public AddPlaceFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,8 +79,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
             String description = titleView.getText().toString();
 
             uploadToImgur(((BitmapDrawable)imageView.getDrawable()).getBitmap());
-            getCityName();
-            // get location
+
             // send request to /api/places
             // notify success
             // redirect to ALL
@@ -141,7 +146,15 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                                 ImgurResponseModel.class);
 
                         String imgurPhotoUrl = items.get(0).getLink();
-                        Log.d("New image url:", imgurPhotoUrl);
+                        String cityName = getCityName();
+                        String title = titleView.getText().toString();
+                        String description = descriptionView.getText().toString();
+                        String creator = getActivity().getPreferences(0).getString("token", null);
+                        if (creator == null) {
+                            // user is not logged in somehow
+                        }
+
+                        Log.d("CREATOR!!!", creator);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,7 +163,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         };
     }
 
-    public void getCityName() {
+    public String getCityName() {
         GpsLocationManager gps = new GpsLocationManager(getContext());
 
         if(gps.canGetLocation()){
@@ -158,10 +171,52 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
 
-            Log.d("LATITUDE: ", ""+ latitude);
-            Log.d("LONGITUDE: ", ""+longitude);
+            Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+            try {
+                List<Address> addresses = gcd.getFromLocation(latitude, longitude, 1);
+                gps.stopUsingGPS();
+                return addresses.get(0).getLocality();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             gps.showSettingsAlert();
         }
+
+        return null;
+    }
+
+//    public void UploadPlace(String url, String cityName, String title, String description, String creator) {
+//        SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(new JsonObjectRequest(
+//                Request.Method.POST,
+//                Endpoints.PlacesEndPoint,
+//
+//        ));
+//    }
+
+    public JSONObject buildRequestBody(String url, String cityName, String title, String description, String creator) {
+        JSONObject geoOrientation = new JSONObject();
+        JSONObject location = new JSONObject();
+        JSONObject whole = new JSONObject();
+
+        try {
+            geoOrientation.put("azimuth", 0);
+            geoOrientation.put("pitch", 0);
+            geoOrientation.put("roll", 0);
+
+            location.put("name", cityName);
+            location.put("geoOrientation", geoOrientation);
+
+            whole.put("imageSource", url);
+            whole.put("imageOrientation", "Horizontal");
+            whole.put("title", title);
+            whole.put("description", description);
+            whole.put("location", location);
+            whole.put("creator", "asd");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return whole;
     }
 }

@@ -6,4 +6,7 @@
     <color name="add_place_background">#111</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
+    <color name="heading">#c0392b</color>
+    <color name="main_content">#8e44ad</color>
+    <color name="footer">#d35400</color>
 </resources>
