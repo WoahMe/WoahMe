@@ -2,7 +2,9 @@ package woahme.teamwork.com.woahme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,14 +95,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        fab.setVisibility(View.INVISIBLE);
 
         if (id == R.id.discover_new_places) {
 
+            fab.setVisibility(View.VISIBLE);
+            ReplaceFragment(R.id.main_fragment, new PlacesListFragment());
+
         } else if (id == R.id.add_new_place) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment, new AddPlaceFragment())
-                    .commit();
+
+            ReplaceFragment(R.id.main_fragment, new AddPlaceFragment());
+
         } else if (id == R.id.visited_places) {
 
         } else if (id == R.id.my_profile) {
@@ -105,5 +115,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void ReplaceFragment(int container, Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(container, fragment)
+                .commit();
     }
 }
