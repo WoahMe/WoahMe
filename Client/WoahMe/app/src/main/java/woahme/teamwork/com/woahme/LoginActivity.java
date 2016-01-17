@@ -18,6 +18,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +58,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         registerView = (AppCompatButton) this.findViewById(R.id.link_register);
         registerView.setOnClickListener(this);
 
+        YoYo.with(Techniques.Tada)
+                .duration(700)
+                .playOn(this.findViewById(R.id.input_email));
+        YoYo.with(Techniques.Bounce)
+                .duration(700)
+                .playOn(this.findViewById(R.id.input_password));
+        YoYo.with(Techniques.RotateOutUpLeft)
+                .duration(700)
+                .playOn(this.findViewById(R.id.btn_login));
+        YoYo.with(Techniques.Wobble)
+                .duration(700)
+                .playOn(this.findViewById(R.id.link_register));
         context = this;
     }
 
