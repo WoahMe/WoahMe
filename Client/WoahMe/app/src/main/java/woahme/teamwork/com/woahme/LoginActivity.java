@@ -143,9 +143,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         HttpUtils.ParseJsonResponse(response.toString(), LoginResponseModel.class);
 
                 String token = items.get(0).getToken();
-
-                SharedPreferencesManager.setToken(getBaseContext(), token);
-                Log.e("token", token);
+                String username = items.get(0).getUsername();
+                SharedPreferencesManager.setToken(getApplicationContext(), token);
+                SharedPreferencesManager.setUsername(getApplicationContext(), username);
                 finish();
             }
         };

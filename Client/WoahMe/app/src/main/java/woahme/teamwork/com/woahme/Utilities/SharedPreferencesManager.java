@@ -25,6 +25,16 @@ public class SharedPreferencesManager {
         editor.commit();
     }
 
+    public static String getUsername(Context context) {
+        return getPrefs(context).getString("username", null);
+    }
+
+    public static void setUsername(Context context, String input) {
+        editor = getPrefs(context).edit();
+        editor.putString("username", input);
+        editor.commit();
+    }
+
     public static void deletePrefs(Context context) {
         editor = getPrefs(context).edit();
         editor.clear();

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -29,8 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurRequest;
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurResponseModel;
@@ -38,6 +41,8 @@ import woahme.teamwork.com.woahme.APIs.LocationManager.GpsLocationManager;
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Utilities.BitmapUtils;
 import woahme.teamwork.com.woahme.Utilities.HttpUtils;
+import woahme.teamwork.com.woahme.Utilities.Notificator;
+import woahme.teamwork.com.woahme.Utilities.SharedPreferencesManager;
 
 public class AddPlaceFragment extends Fragment implements View.OnClickListener {
 
@@ -149,12 +154,9 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                         String cityName = getCityName();
                         String title = titleView.getText().toString();
                         String description = descriptionView.getText().toString();
-                        String creator = getActivity().getPreferences(0).getString("token", null);
-                        if (creator == null) {
-                            // user is not logged in somehow
-                        }
+                        String creator = SharedPreferencesManager.getUsername(getContext());
 
-                        Log.d("CREATOR!!!", creator);
+                        UploadPlace(imgurPhotoUrl, cityName, title, description, creator);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -186,13 +188,27 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
-//    public void UploadPlace(String url, String cityName, String title, String description, String creator) {
-//        SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(new JsonObjectRequest(
-//                Request.Method.POST,
-//                Endpoints.PlacesEndPoint,
-//
-//        ));
-//    }
+    public void UploadPlace(String url, String cityName, String title, String description, String creator) {
+        SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(new JsonObjectRequest(
+                Request.Method.POST,
+                Endpoints.PlacesEndPoint,
+                buildRequestBody(url, cityName, title, description, creator),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Notificator.Notify(getContext(), "WoahMe", "Great job! You did it!");
+                    }
+                },
+                SingletonRequestQueue.GetDefaultErrorListener()
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String,String>();
+                headers.put("Authorization", "Bearer " + SharedPreferencesManager.getToken(getContext()));
+                return headers;
+            }
+        });
+    }
 
     public JSONObject buildRequestBody(String url, String cityName, String title, String description, String creator) {
         JSONObject geoOrientation = new JSONObject();
@@ -212,7 +228,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
             whole.put("title", title);
             whole.put("description", description);
             whole.put("location", location);
-            whole.put("creator", "asd");
+            whole.put("creator", creator);
         } catch (JSONException e) {
             e.printStackTrace();
         }

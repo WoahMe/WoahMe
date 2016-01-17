@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReplaceFragment(R.id.main_fragment, new AddPlaceFragment());
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,10 +99,6 @@ public class MainActivity extends AppCompatActivity
 
             fab.setVisibility(View.VISIBLE);
             ReplaceFragment(R.id.main_fragment, new PlacesListFragment());
-
-        } else if (id == R.id.add_new_place) {
-
-            ReplaceFragment(R.id.main_fragment, new AddPlaceFragment());
 
         } else if (id == R.id.visited_places) {
 
