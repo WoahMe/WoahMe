@@ -17,17 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import woahme.teamwork.com.woahme.Http.GsonRequest;
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
