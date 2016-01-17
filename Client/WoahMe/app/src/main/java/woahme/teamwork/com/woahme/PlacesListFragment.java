@@ -35,7 +35,7 @@ import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
 public class PlacesListFragment extends Fragment
-    implements ListView.OnItemClickListener{
+    implements ListView.OnItemLongClickListener{
     OnPlaceSelectListener placeCallback;
 
     private ListView coolPlacesList;
@@ -49,10 +49,17 @@ public class PlacesListFragment extends Fragment
 
             adapter.addAll(placesResponse.getPlaces());
             coolPlacesList.setAdapter(adapter);
-            coolPlacesList.setOnItemClickListener(PlacesListFragment.this);
+            coolPlacesList.setOnItemLongClickListener(PlacesListFragment.this);
             adapter.notifyDataSetChanged();
         }
     };
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        PlaceModel selectedPlace = (PlaceModel) parent.getAdapter().getItem(position);
+        placeCallback.onPlaceSelected(selectedPlace);
+        return true;
+    }
 
     public interface OnPlaceSelectListener {
         public void onPlaceSelected(PlaceModel place);
@@ -102,27 +109,5 @@ public class PlacesListFragment extends Fragment
     public void onResume() {
         // TODO: Update the list of places
         super.onResume();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        PlaceModel selectedPlace = (PlaceModel) parent.getAdapter().getItem(position);
-        placeCallback.onPlaceSelected(selectedPlace);
-
-        /*
-        Log.e("selected place", selectedPlace.toString());
-        Bundle args = new Bundle();
-        args.putString("title", selectedPlace.getTitle());
-        //args.putString("description", place.get);
-        args.putString("imageSource", selectedPlace.getImageSource());
-
-        PlaceDetailsFragment detailsFragment = new PlaceDetailsFragment();
-        detailsFragment.setArguments(args);
-
-
-        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment, detailsFragment);
-        transaction.commit();
-        */
     }
 }

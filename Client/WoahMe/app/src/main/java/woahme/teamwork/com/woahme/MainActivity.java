@@ -57,14 +57,13 @@ public class MainActivity extends AppCompatActivity
                 .commit();
 
 
+        /*TESTING
         Notificator.Notify(this, "SYFO DIAS", "THE FORCE WILL BE WITH YOU. ALWAYS!");
         PlaceDbHelper helper = new PlaceDbHelper(this);
         helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
         helper.add("asdasd", "Horizontal", "asd.asd.asd", "here got gf", "alucard", "gf land", "1", "1", "1");
-        ArrayList<PlaceModel> visited = helper.read();
-        for (int i = 0; i < visited.size(); i++) {
-            Log.e("Places: ", visited.get(i).toString());
-        }
+        helper.readAsync(this).execute();
+        Log.e("TASK", "STARTED");*/
     }
 
     @Override
