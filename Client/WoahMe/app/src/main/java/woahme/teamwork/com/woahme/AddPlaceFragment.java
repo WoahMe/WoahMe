@@ -1,8 +1,10 @@
 package woahme.teamwork.com.woahme;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurRequest;
 import woahme.teamwork.com.woahme.APIs.Imgur.ImgurResponseModel;
+import woahme.teamwork.com.woahme.APIs.LocationManager.GpsLocationManager;
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Utilities.BitmapUtils;
 import woahme.teamwork.com.woahme.Utilities.HttpUtils;
@@ -69,8 +72,8 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
             String title = titleView.getText().toString();
             String description = titleView.getText().toString();
 
-
-            // send image to imgur
+            uploadToImgur(((BitmapDrawable)imageView.getDrawable()).getBitmap());
+            getCityName();
             // get location
             // send request to /api/places
             // notify success
@@ -105,8 +108,6 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
-
-            uploadToImgur(imageBitmap);
         }
     }
 
@@ -115,13 +116,13 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         JSONObject body = ImgurRequest.generateUploadRequestBody(imageBase64);
 
         SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(
-            new ImgurRequest(
-                Request.Method.POST,
-                Endpoints.ImgurUploadEndpoint,
-                body,
-                getPhotoUploadResponseListener(),
-                SingletonRequestQueue.GetDefaultErrorListener()
-            )
+                new ImgurRequest(
+                        Request.Method.POST,
+                        Endpoints.ImgurUploadEndpoint,
+                        body,
+                        getPhotoUploadResponseListener(),
+                        SingletonRequestQueue.GetDefaultErrorListener()
+                )
         );
     }
 
@@ -147,5 +148,20 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                 }
             }
         };
+    }
+
+    public void getCityName() {
+        GpsLocationManager gps = new GpsLocationManager(getContext());
+
+        if(gps.canGetLocation()){
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            Log.d("LATITUDE: ", ""+ latitude);
+            Log.d("LONGITUDE: ", ""+longitude);
+        } else {
+            gps.showSettingsAlert();
+        }
     }
 }
