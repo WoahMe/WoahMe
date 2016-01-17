@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +24,8 @@ import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
 import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        PlacesListFragment.OnPlaceSelectListener{
 
     FloatingActionButton fab;
 
@@ -123,5 +125,32 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(container, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onPlaceSelected(PlaceModel place) {
+        PlaceDetailsFragment placeDetailsFragment = (PlaceDetailsFragment)
+                getSupportFragmentManager().findFragmentById(R.id.place_details_fragment);
+
+        if (placeDetailsFragment != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Call a method in the ArticleFragment to update its content
+            placeDetailsFragment.updateArticleView(place);
+        } else {
+            // Otherwise, we're in the one-pane layout and must swap frags...
+
+            // Create fragment and give it an argument for the selected article
+            /*Bundle args = new Bundle();
+            Log.e("AUTISMO", place.getTitle());
+            args.putString("title", "asd");
+            args.putString("imageSource", "asdasd");*/
+
+            PlaceDetailsFragment newFragment = new PlaceDetailsFragment();
+            newFragment.updateArticleView(place);
+            //newFragment.setArguments(args);
+
+            ReplaceFragment(R.id.main_fragment, newFragment);
+        }
     }
 }

@@ -10,6 +10,6 @@ public class Location {
     }
 
     public String toString() {
-        return this.name + ", " + this.geoOrientation.toString();
+        return ", " + this.name + ", " + this.geoOrientation.toString();
     }
 }

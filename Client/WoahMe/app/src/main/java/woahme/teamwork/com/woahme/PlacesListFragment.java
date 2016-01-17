@@ -1,5 +1,8 @@
 package woahme.teamwork.com.woahme;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +34,7 @@ import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
 public class PlacesListFragment extends Fragment
     implements ListView.OnItemClickListener{
+    OnPlaceSelectListener placeCallback;
 
     private ListView coolPlacesList;
     private ArrayAdapter adapter;
@@ -47,7 +52,25 @@ public class PlacesListFragment extends Fragment
         }
     };
 
+    public interface OnPlaceSelectListener {
+        public void onPlaceSelected(PlaceModel place);
+    }
+
     public PlacesListFragment() {
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            placeCallback = (OnPlaceSelectListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPlaceSelectListener");
+        }
     }
 
     @Override
@@ -82,8 +105,22 @@ public class PlacesListFragment extends Fragment
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         PlaceModel selectedPlace = (PlaceModel) parent.getAdapter().getItem(position);
+        placeCallback.onPlaceSelected(selectedPlace);
+
+        /*
+        Log.e("selected place", selectedPlace.toString());
+        Bundle args = new Bundle();
+        args.putString("title", selectedPlace.getTitle());
+        //args.putString("description", place.get);
+        args.putString("imageSource", selectedPlace.getImageSource());
+
+        PlaceDetailsFragment detailsFragment = new PlaceDetailsFragment();
+        detailsFragment.setArguments(args);
+
+
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment, new PlaceDetailsFragment(), "PlaceDetailsFragment");
+        transaction.replace(R.id.main_fragment, detailsFragment);
         transaction.commit();
+        */
     }
 }
