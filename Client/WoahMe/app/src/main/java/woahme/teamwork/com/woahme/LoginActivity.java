@@ -58,16 +58,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         registerView.setOnClickListener(this);
 
         YoYo.with(Techniques.Tada)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.input_email));
         YoYo.with(Techniques.Bounce)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.input_password));
         YoYo.with(Techniques.Wave)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.btn_login));
         YoYo.with(Techniques.Wobble)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.link_register));
 
         context = this;
