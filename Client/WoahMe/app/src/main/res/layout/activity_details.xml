@@ -9,12 +9,11 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
-            <woahme.teamwork.com.woahme.ZoomableImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/place_details_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="matrix"
-                android:src="@drawable/woahme"/>
+                android:adjustViewBounds="true"/>
 
             <TextView
                 android:layout_width="match_parent"
