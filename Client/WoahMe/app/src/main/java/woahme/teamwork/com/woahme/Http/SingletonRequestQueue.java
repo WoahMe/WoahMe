@@ -65,10 +65,4 @@ public class SingletonRequestQueue {
             }
         };
     }
-
-    public static final <T> List<T> ParseResponse(String response, Class<T> type) {
-        final T jsonToObject = new Gson().fromJson(response, type);
-
-        return Arrays.asList(jsonToObject);
-    }
 }

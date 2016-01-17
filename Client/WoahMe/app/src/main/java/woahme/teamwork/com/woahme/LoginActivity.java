@@ -20,6 +20,7 @@ import java.util.List;
 
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.LoginRequestModel;
+import woahme.teamwork.com.woahme.Utilities.HttpUtils;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     Context context;
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(JSONObject response) {
                 List<LoginRequestModel> items =
-                        SingletonRequestQueue.ParseResponse(response.toString(), LoginRequestModel.class);
+                        HttpUtils.ParseJsonResponse(response.toString(), LoginRequestModel.class);
 
             }
         };

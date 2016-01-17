@@ -13,6 +13,7 @@
         <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example" />
+        <uses-feature android:name="android.hardware.camera" android:required="true" />
 
         <activity
             android:name=".MainActivity"

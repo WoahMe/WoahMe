@@ -8,4 +8,6 @@ public class Endpoints {
     public static final String RegisterEndPoint = BaseUrl + "/api/users/register";
 
     public static final String PlacesEndPoint = BaseUrl + "/api/places";
+
+    public static final String ImgurUploadEndpoint = "https://api.imgur.com/3/image";
 }
