@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
+import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Storage.Contracts.PlaceContract;
 
 public class PlaceDbHelper extends SQLiteOpenHelper {
@@ -58,7 +58,7 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
                 values);
     }
 
-    public ArrayList<PlaceResponseModel> read() {
+    public ArrayList<PlaceModel> read() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {
@@ -84,7 +84,7 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
                 cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry._ID)
         );
 
-        ArrayList<PlaceResponseModel> visited = new ArrayList<PlaceResponseModel>();
+        ArrayList<PlaceModel> visited = new ArrayList<PlaceModel>();
         for (int i = 0; i < cursor.getCount(); i++) {
             int id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry._ID);
             int _id = Integer.parseInt(cursor.getString(id));
@@ -94,7 +94,7 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
             String imageSource = cursor.getString(id);
             id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION);
             String orientation = cursor.getString(id);
-            PlaceResponseModel place = new PlaceResponseModel(_id, title, imageSource, orientation);
+            PlaceModel place = new PlaceModel(_id, title, imageSource, orientation);
             visited.add(place);
             cursor.moveToNext();
         }

@@ -1,44 +1,31 @@
 package woahme.teamwork.com.woahme.Models;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public class PlaceResponseModel {
-    private int id;
-    private String title;
-    private String imageSource;
-    private String imageOrientation;
+    private ArrayList<PlaceModel> result;
 
-    public PlaceResponseModel(int id, String title, String imageSource, String imageOrientation) {
-        this.id = id;
-        this.title = title;
-        this.imageSource = imageSource;
-        this.imageOrientation = imageOrientation;
+    public PlaceResponseModel() {
+        this.result = new ArrayList<PlaceModel>();
     }
 
-    public int getId() {
-        return this.id;
-    }
+    public ArrayList<PlaceModel> getPlaces() {
+        return this.result;
+    };
 
-    public String getTitle() {
-
-        return this.title;
-    }
-
-    public String getImageSource() {
-        return this.imageSource;
-    }
-
-    public String getImageOrientation() {
-        return this.imageOrientation;
-    }
+    public void setPlaces(ArrayList<PlaceModel> places) {
+        this.result = places;
+    };
 
     public String toString() {
-        return "{" +
-                Integer.toString(this.id) +
-                ", " +
-                this.title +
-                ", " +
-                this.imageOrientation +
-                ", " +
-                this.imageSource +
-                "}";
+        StringBuilder builder = new StringBuilder();
+        Log.d("PlaceResponseModel", "toString: HI");
+        for (int i = 0; i < this.getPlaces().size(); i++) {
+            builder.append(this.getPlaces().get(i).toString());
+        }
+
+        return builder.toString();
     }
 }
