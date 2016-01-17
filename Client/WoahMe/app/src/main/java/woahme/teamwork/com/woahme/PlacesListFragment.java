@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,7 +25,7 @@ import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
 public class PlacesListFragment extends Fragment {
 
-    private GridView coolPlacesList;
+    private ListView coolPlacesList;
     private ArrayAdapter adapter;
 
     public PlacesListFragment() {
@@ -35,7 +36,7 @@ public class PlacesListFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
-        coolPlacesList = (GridView) view.findViewById(R.id.cool_places_list);
+        coolPlacesList = (ListView) view.findViewById(R.id.cool_places_list);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
             (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
