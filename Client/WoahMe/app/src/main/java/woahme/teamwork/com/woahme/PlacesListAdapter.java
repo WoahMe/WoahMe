@@ -1,15 +1,23 @@
 package woahme.teamwork.com.woahme;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.net.Network;
+import android.support.v7.widget.GridLayoutManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+
+import org.w3c.dom.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,30 +45,25 @@ public class PlacesListAdapter extends ArrayAdapter<PlaceModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        PlaceModel currentItem = items.get(position);
         if (view == null) {
+            Log.i("IMAGE URL: ", currentItem.getImageSource());
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(this.resource, parent, false);
-
-            ViewHolder viewHolder = new ViewHolder();
-
-            viewHolder.image = (NetworkImageView) view.findViewById(R.id.imageSource);
-            view.setTag(viewHolder);
         }
 
-        PlaceModel currentItem = items.get(position);
-        NetworkImageView image = (NetworkImageView) view.findViewById(R.id.imageSource);
-        image.setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(this.context).getImageLoader());
+        NetworkImageView asd = (NetworkImageView) view.findViewById(R.id.cool_place_image);
+        asd.setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(context).getImageLoader());
 
-        ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.id = items.get(position).getId();
-        viewHolder.image.setImageUrl(items.get(position).getImageSource(), SingletonRequestQueue.getInstance(this.context).getImageLoader());
-        Log.i("IMAGE URL: ", items.get(position).getImageSource());
+        Log.i("IMAGE URL: ", currentItem.getImageSource());
 
         return view;
     }
 
     static class ViewHolder {
-        NetworkImageView image;
-        int id;
+        GridLayout layout;
+        //NetworkImageView image;
+        TextView title;
+        //int id;
     }
 }

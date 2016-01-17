@@ -20,7 +20,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
+import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 
 public class PlacesListFragment extends Fragment {
@@ -37,6 +40,7 @@ public class PlacesListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
         coolPlacesList = (ListView) view.findViewById(R.id.cool_places_list);
+        adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, new ArrayList<PlaceModel>());
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
             (Request.Method.GET, Endpoints.PlacesEndPoint, new Response.Listener<JSONObject>() {
@@ -45,13 +49,20 @@ public class PlacesListFragment extends Fragment {
                     Gson gson = new Gson();
                     Type placesListType = new TypeToken<PlaceResponseModel>(){}.getType();
                     PlaceResponseModel placesResponse = gson.fromJson(response.toString(), placesListType);
-                    adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, placesResponse.getPlaces());
+                    adapter.addAll(placesResponse.getPlaces());
+                    coolPlacesList.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+                    //coolPlacesList.getAdapter().notifyAll();
                 }
             }, SingletonRequestQueue.GetDefaultErrorListener());
 
         SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);
-        coolPlacesList.setAdapter(adapter);
+        //coolPlacesList.setAdapter(adapter);
+        //adapter.add("");
+        //adapter.notifyDataSetChanged();
 
+        Log.e("REQUEST", "Finished");
         return view;
     }
 
