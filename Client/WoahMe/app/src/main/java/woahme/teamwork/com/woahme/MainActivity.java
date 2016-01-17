@@ -59,11 +59,10 @@ public class MainActivity extends AppCompatActivity
         PlaceDbHelper helper = new PlaceDbHelper(this);
         helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
         helper.add("asdasd", "Horizontal", "asd.asd.asd", "here got gf", "alucard", "gf land", "1", "1", "1");
-        String visited = helper.read().toString();
-        Log.e("DB CONTENT", visited);
-        /*for (int i = 0; i < visited.size(); i++) {
+        ArrayList<PlaceModel> visited = helper.read();
+        for (int i = 0; i < visited.size(); i++) {
             Log.e("Places: ", visited.get(i).toString());
-        }*/
+        }
     }
 
     @Override

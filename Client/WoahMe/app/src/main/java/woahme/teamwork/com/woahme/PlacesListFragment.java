@@ -82,8 +82,8 @@ public class PlacesListFragment extends Fragment
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         PlaceModel selectedPlace = (PlaceModel) parent.getAdapter().getItem(position);
-        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.main_fragment, new PlaceDetailsFragment(), "PlaceDetailsFragment");
-        ft.commit();
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment, new PlaceDetailsFragment(), "PlaceDetailsFragment");
+        transaction.commit();
     }
 }

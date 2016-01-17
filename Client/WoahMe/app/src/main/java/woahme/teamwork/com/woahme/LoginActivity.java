@@ -1,7 +1,9 @@
 package woahme.teamwork.com.woahme;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -19,13 +22,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.LoginRequestModel;
 import woahme.teamwork.com.woahme.Models.LoginResponseModel;
 import woahme.teamwork.com.woahme.Utilities.HttpUtils;
 import woahme.teamwork.com.woahme.Utilities.MD5;
+import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     Context context;
@@ -72,9 +78,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String password = passwordView.getText().toString();
 
         if (email.length() == 0) {
-            // error
+            Notificator.Notify(this, "WoahMe", "Email cannot be empty.");
+            return;
         } else if (password.length() == 0) {
-            // error
+            Notificator.Notify(this, "WoahMe", "Password cannot be empty.");
+            return;
         }
 
         switch (v.getId()) {
@@ -93,7 +101,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Endpoints.LoginEndpoint,
                 getInfoAsJson(username, password),
                 callback,
-                SingletonRequestQueue.GetDefaultErrorListener()));
+                SingletonRequestQueue.GetDefaultErrorListener()) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        });
     }
 
     public void RegisterUser(String username, String password, Response.Listener callback) {
@@ -102,7 +118,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Endpoints.RegisterEndPoint,
                 getInfoAsJson(username, password),
                 callback,
-                SingletonRequestQueue.GetDefaultErrorListener()));
+                SingletonRequestQueue.GetDefaultErrorListener()) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        });
     }
 
     public Response.Listener GetLoginCallback() {
@@ -113,7 +136,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     HttpUtils.ParseJsonResponse(response.toString(), LoginResponseModel.class);
 
                 String token = items.get(0).getToken();
-                Log.d("token", token);
+
+                SharedPreferences session = getPreferences(0);
+                session
+                        .edit()
+                        .putString("token", token)
+                        .commit();
+
+                Log.e("token", token);
+                finish();
             }
         };
     }
