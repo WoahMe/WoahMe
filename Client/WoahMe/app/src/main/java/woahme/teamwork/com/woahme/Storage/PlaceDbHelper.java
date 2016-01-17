@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import woahme.teamwork.com.woahme.Models.GeoOrientation;
+import woahme.teamwork.com.woahme.Models.Location;
 import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Storage.Contracts.PlaceContract;
 
@@ -19,8 +21,14 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
                     PlaceContract.PlaceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     //PlaceContract.PlaceEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
                     PlaceContract.PlaceEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     PlaceContract.PlaceEntry.COLUMN_NAME_IMAGESOURCE + TEXT_TYPE + COMMA_SEP +
-                    PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION + TEXT_TYPE + " )";
+                    PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_CREATOR + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_AZIMUTH + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_PITCH + TEXT_TYPE + COMMA_SEP +
+                    PlaceContract.PlaceEntry.COLUMN_NAME_ROLL + TEXT_TYPE + " )";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + PlaceContract.PlaceEntry.TABLE_NAME;
     public static final int DATABASE_VERSION = 1;
@@ -43,7 +51,16 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void add(String title, String orientation, String imageSource) {
+    public void add(
+            String title,
+            String orientation,
+            String imageSource,
+            String description,
+            String creator,
+            String name,
+            String azimuth,
+            String pitch,
+            String roll) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -51,6 +68,13 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         values.put(PlaceContract.PlaceEntry.COLUMN_NAME_TITLE, title);
         values.put(PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION, orientation);
         values.put(PlaceContract.PlaceEntry.COLUMN_NAME_IMAGESOURCE, imageSource);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_DESCRIPTION, description);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_CREATOR, creator);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_NAME, name);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_AZIMUTH, azimuth);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_PITCH, pitch);
+        values.put(PlaceContract.PlaceEntry.COLUMN_NAME_ROLL, roll);
+
 
         long newRowId = db.insert(
                 PlaceContract.PlaceEntry.TABLE_NAME,
@@ -64,8 +88,14 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         String[] projection = {
                 PlaceContract.PlaceEntry._ID,
                 PlaceContract.PlaceEntry.COLUMN_NAME_TITLE,
+                PlaceContract.PlaceEntry.COLUMN_NAME_DESCRIPTION,
+                PlaceContract.PlaceEntry.COLUMN_NAME_IMAGESOURCE,
                 PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION,
-                PlaceContract.PlaceEntry.COLUMN_NAME_IMAGESOURCE
+                PlaceContract.PlaceEntry.COLUMN_NAME_CREATOR,
+                PlaceContract.PlaceEntry.COLUMN_NAME_NAME,
+                PlaceContract.PlaceEntry.COLUMN_NAME_AZIMUTH,
+                PlaceContract.PlaceEntry.COLUMN_NAME_PITCH,
+                PlaceContract.PlaceEntry.COLUMN_NAME_ROLL
         };
 
         //table name, projection, where, group rows, filter groups, sort
@@ -88,13 +118,46 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         for (int i = 0; i < cursor.getCount(); i++) {
             int id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry._ID);
             int _id = Integer.parseInt(cursor.getString(id));
+
             id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_TITLE);
             String title = cursor.getString(id);
+
             id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_IMAGESOURCE);
             String imageSource = cursor.getString(id);
+
             id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_ORIENTATION);
             String orientation = cursor.getString(id);
-            PlaceModel place = new PlaceModel(_id, title, imageSource, orientation);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_DESCRIPTION);
+            String description = cursor.getString(id);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_CREATOR);
+            String creator = cursor.getString(id);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_NAME);
+            String name = cursor.getString(id);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_AZIMUTH);
+            double azimuth = cursor.getDouble(id);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_PITCH);
+            double pitch = cursor.getDouble(id);
+
+            id = cursor.getColumnIndexOrThrow(PlaceContract.PlaceEntry.COLUMN_NAME_ROLL);
+            double roll = cursor.getDouble(id);
+
+
+            GeoOrientation geoOrientation = new GeoOrientation(azimuth, pitch, roll);
+            Location location = new Location(name, geoOrientation);
+            PlaceModel place = new PlaceModel(
+                    _id,
+                    title,
+                    imageSource,
+                    orientation,
+                    description,
+                    creator,
+                    location);
+
             visited.add(place);
             cursor.moveToNext();
         }

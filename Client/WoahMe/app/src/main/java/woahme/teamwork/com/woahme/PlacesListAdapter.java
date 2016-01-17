@@ -52,8 +52,8 @@ public class PlacesListAdapter extends ArrayAdapter<PlaceModel> {
             view = inflater.inflate(this.resource, parent, false);
         }
 
-        NetworkImageView asd = (NetworkImageView) view.findViewById(R.id.cool_place_image);
-        asd.setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(context).getImageLoader());
+        NetworkImageView coolPlaceImage = (NetworkImageView) view.findViewById(R.id.cool_place_image);
+        coolPlaceImage.setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(context).getImageLoader());
 
         Log.i("IMAGE URL: ", currentItem.getImageSource());
 

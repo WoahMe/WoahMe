@@ -22,4 +22,7 @@
     <string name="add_place_title">Title</string>
     <string name="add_place_description">Description</string>
     <string name="add_place_add_button">Share this!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

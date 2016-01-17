@@ -17,6 +17,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
 import woahme.teamwork.com.woahme.Utilities.Notificator;
@@ -53,15 +54,16 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
 
-        /* TESTING
-        Notificator.Notify(this, "zdr", "mili4ki");
+
+        Notificator.Notify(this, "SYFO DIAS", "THE FORCE WILL BE WITH YOU. ALWAYS!");
         PlaceDbHelper helper = new PlaceDbHelper(this);
-        helper.add("asdasd", "Horizontal", "asd.asd.asd");
-        ArrayList<PlaceResponseModel> visited = helper.read();
-        for (int i = 0; i < visited.size(); i++) {
+        helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
+        helper.add("asdasd", "Horizontal", "asd.asd.asd", "here got gf", "alucard", "gf land", "1", "1", "1");
+        String visited = helper.read().toString();
+        Log.e("DB CONTENT", visited);
+        /*for (int i = 0; i < visited.size(); i++) {
             Log.e("Places: ", visited.get(i).toString());
-        }
-        */
+        }*/
     }
 
     @Override

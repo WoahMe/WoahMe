@@ -7,12 +7,26 @@ public class PlaceModel {
     private String title;
     private String imageSource;
     private String imageOrientation;
+    private String description;
+    private String creator;
+    private Location location;
 
-    public PlaceModel(int id, String title, String imageSource, String imageOrientation) {
+
+    public PlaceModel(
+            int id,
+            String title,
+            String imageSource,
+            String imageOrientation,
+            String description,
+            String creator,
+            Location location) {
         this.id = id;
         this.title = title;
         this.imageSource = imageSource;
         this.imageOrientation = imageOrientation;
+        this.description = description;
+        this.creator = creator;
+        this.location = location;
     }
 
     public int getId() {
@@ -22,6 +36,18 @@ public class PlaceModel {
     public String getTitle() {
 
         return this.title;
+    }
+
+    public String getImageDescription() {
+        return this.description;
+    }
+
+    public Location getLocation() {
+        return this.location;
+    }
+
+    public String getCreator() {
+        return this.creator;
     }
 
     public String getImageSource() {
@@ -41,6 +67,7 @@ public class PlaceModel {
                 this.imageOrientation +
                 ", " +
                 this.imageSource +
+                location.toString() +
                 "}";
     }
 }
