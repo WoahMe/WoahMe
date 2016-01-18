@@ -11,7 +11,6 @@ public class PlaceModel {
     private String creator;
     private Location location;
 
-
     public PlaceModel(
             int id,
             String title,

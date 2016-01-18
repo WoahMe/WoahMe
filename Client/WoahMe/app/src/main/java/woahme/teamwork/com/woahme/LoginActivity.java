@@ -1,9 +1,7 @@
 package woahme.teamwork.com.woahme;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -34,6 +32,7 @@ import woahme.teamwork.com.woahme.Models.LoginResponseModel;
 import woahme.teamwork.com.woahme.Utilities.HttpUtils;
 import woahme.teamwork.com.woahme.Utilities.MD5;
 import woahme.teamwork.com.woahme.Utilities.Notificator;
+import woahme.teamwork.com.woahme.Utilities.SharedPreferencesManager;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     Context context;
@@ -116,15 +115,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Endpoints.LoginEndpoint,
                 getInfoAsJson(username, password),
                 callback,
-                SingletonRequestQueue.GetDefaultErrorListener()) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        });
+                SingletonRequestQueue.GetDefaultErrorListener()));
     }
 
     public void RegisterUser(String username, String password, Response.Listener callback) {
@@ -134,6 +125,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 getInfoAsJson(username, password),
                 callback,
                 SingletonRequestQueue.GetDefaultErrorListener()) {
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -148,16 +140,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(JSONObject response) {
                 List<LoginResponseModel> items =
-                    HttpUtils.ParseJsonResponse(response.toString(), LoginResponseModel.class);
+                        HttpUtils.ParseJsonResponse(response.toString(), LoginResponseModel.class);
 
                 String token = items.get(0).getToken();
 
-                SharedPreferences session = getPreferences(0);
-                session
-                        .edit()
-                        .putString("token", token)
-                        .commit();
-
+                SharedPreferencesManager.setToken(getBaseContext(), token);
                 Log.e("token", token);
                 finish();
             }

@@ -9,6 +9,10 @@ public class Location {
         this.geoOrientation = orientation;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public String toString() {
         return ", " + this.name + ", " + this.geoOrientation.toString();
     }

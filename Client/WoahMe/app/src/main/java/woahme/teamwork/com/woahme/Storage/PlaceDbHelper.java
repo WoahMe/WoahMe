@@ -202,7 +202,6 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         @Override
         protected void onPostExecute(Object result) {
             Log.e("TASK", "INPOST");
-            this.activity.Test();
         }
     }
 }
