@@ -23,6 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
         this.descriptionView = (TextView) findViewById(R.id.place_details_description);
         this.creatorView = (TextView) findViewById(R.id.place_details_creator);
         this.locationName = (TextView) findViewById(R.id.place_details_location_name);
+
         Bundle detailsBundle = getIntent().getExtras();
 
         titleView.setText(detailsBundle.getString("placeTitle"));
