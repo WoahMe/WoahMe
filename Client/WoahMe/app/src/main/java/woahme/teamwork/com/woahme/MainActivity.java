@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
+
+        Notificator.Notify(this, "SYFO DIAS", "THE FORCE WILL BE WITH YOU. ALWAYS!");
+        PlaceDbHelper helper = new PlaceDbHelper(this);
+        helper.onUpgrade(helper.getWritableDatabase(), 2, 3);
+        helper.add("Back Yard", "Vertical", "https://s-media-cache-ak0.pinimg.com/236x/04/06/cd/0406cd18d85f42a1065fb1db1485fdfb.jpg", "here got gf", "alucard", "gf land", "1", "1", "1");
+        Log.e("TASK", "STARTED");
     }
 
     @Override
