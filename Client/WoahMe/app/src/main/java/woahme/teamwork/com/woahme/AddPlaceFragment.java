@@ -79,9 +79,19 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         int viewId = v.getId();
 
         if (viewId == R.id.add_place_button) {
-            morphToSuccess(button, 1000);
             String title = titleView.getText().toString();
-            String description = titleView.getText().toString();
+            String description = descriptionView.getText().toString();
+
+            if (title == null || title == "" || title.length() < 1) {
+                Notificator.Notify(getContext(), "WoahMe", "Please enter a title.");
+                return;
+            }
+            Log.d("dsafdfdsa", "-" + description + "-");
+            if (description == null || description == "" || description.length() < 1) {
+                Notificator.Notify(getContext(), "WoahMe", "Please enter a description.");
+                return;
+            }
+            morphToSuccess(button, 1000);
 
             uploadToImgur(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
@@ -189,6 +199,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
     }
 
     public void UploadPlace(String url, String cityName, String title, String description, String creator) {
+
         SingletonRequestQueue.getInstance(getContext()).addToRequestQueue(new JsonObjectRequest(
                 Request.Method.POST,
                 Endpoints.PlacesEndPoint,
