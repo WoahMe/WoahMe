@@ -1,6 +1,8 @@
 package woahme.teamwork.com.woahme;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ public class DetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.titleView = (TextView) findViewById(R.id.place_details_title);
         YoYo.with(Techniques.BounceInLeft)
@@ -60,9 +63,9 @@ public class DetailsActivity extends AppCompatActivity
 
         titleView.setText(detailsBundle.getString("placeTitle"));
         imageView.setImageUrl(detailsBundle.getString("placeImage"), SingletonRequestQueue.getInstance(this).getImageLoader());
-        descriptionView.setText("More about the place:\n" + detailsBundle.getString("placeDescription"));
-        creatorView.setText("By: " + detailsBundle.getString("placeCreator"));
-        locationName.setText("Where: " + detailsBundle.getString("placeLocationName"));
+        descriptionView.setText(detailsBundle.getString("placeDescription"));
+        creatorView.setText(detailsBundle.getString("placeCreator"));
+        locationName.setText(detailsBundle.getString("placeLocationName") + ",");
 
         // WHEN THE USER SWIPES DOWN OR DOES SOME FUNKY GESTURE => FINISH() ACTIVITY!
     }
