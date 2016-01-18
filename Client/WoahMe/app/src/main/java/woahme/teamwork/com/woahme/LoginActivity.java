@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -27,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
-import woahme.teamwork.com.woahme.Models.LoginRequestModel;
 import woahme.teamwork.com.woahme.Models.LoginResponseModel;
 import woahme.teamwork.com.woahme.Utilities.HttpUtils;
 import woahme.teamwork.com.woahme.Utilities.MD5;

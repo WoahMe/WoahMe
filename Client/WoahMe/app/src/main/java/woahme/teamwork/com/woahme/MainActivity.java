@@ -5,23 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import java.util.ArrayList;
-
-import woahme.teamwork.com.woahme.Models.PlaceModel;
-import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
-import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
-import woahme.teamwork.com.woahme.Utilities.Notificator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,12 +51,6 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.main_fragment, new PlacesListFragment())
                 .commit();
-
-        Notificator.Notify(this, "SYFO DIAS", "THE FORCE WILL BE WITH YOU. ALWAYS!");
-        PlaceDbHelper helper = new PlaceDbHelper(this);
-        helper.onUpgrade(helper.getWritableDatabase(), 2, 3);
-        helper.add("Back Yard", "Vertical", "https://s-media-cache-ak0.pinimg.com/236x/04/06/cd/0406cd18d85f42a1065fb1db1485fdfb.jpg", "here got gf", "alucard", "gf land", "1", "1", "1");
-        Log.e("TASK", "STARTED");
     }
 
     @Override

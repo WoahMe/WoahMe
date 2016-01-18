@@ -3,7 +3,6 @@ package woahme.teamwork.com.woahme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
 import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
+import woahme.teamwork.com.woahme.Storage.SqliteDbUtility;
 
 public class PlacesListFragment extends Fragment
         implements ListView.OnItemLongClickListener,
@@ -34,12 +34,12 @@ public class PlacesListFragment extends Fragment
     private ListView coolPlacesList;
     private ArrayAdapter adapter;
     private boolean isInVisited;
+    private Button change_list;
 
     public void displayVisited(ArrayList<PlaceModel> visited) {
         this.adapter.clear();
         this.adapter.addAll(visited);
         this.adapter.notifyDataSetChanged();
-        Log.e("PlacesListFragment", "Finished: display visited");
     }
 
     public PlacesListFragment() {
@@ -58,8 +58,8 @@ public class PlacesListFragment extends Fragment
 
         listPlacesFromServer();
 
-        Button change_list = (Button) view.findViewById(R.id.change_list);
-        change_list.setOnClickListener(PlacesListFragment.this);
+        this.change_list = (Button) view.findViewById(R.id.change_list);
+        this.change_list.setOnClickListener(PlacesListFragment.this);
         return view;
     }
 
@@ -87,12 +87,11 @@ public class PlacesListFragment extends Fragment
     public void onClick(View v) {
         Button change_list = (Button) v.findViewById(R.id.change_list);
         if (this.isInVisited) {
-            Log.e("GET NEW", "CLICKED");
             listPlacesFromServer();
             change_list.setText("List Visited Places");
             this.isInVisited = false;
         } else {
-            PlaceDbHelper helper = new PlaceDbHelper(getContext());
+            PlaceDbHelper helper = new PlaceDbHelper(getContext(), new SqliteDbUtility(getContext()));
             helper.readAsync(PlacesListFragment.this).execute();
             change_list.setText("List New Places");
             this.isInVisited = true;

@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
+import woahme.teamwork.com.woahme.Models.GeoOrientation;
+import woahme.teamwork.com.woahme.Models.Location;
+import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
+import woahme.teamwork.com.woahme.Storage.SqliteDbUtility;
 
 public class DetailsActivity extends AppCompatActivity
     implements Button.OnClickListener{
@@ -46,18 +50,17 @@ public class DetailsActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        PlaceDbHelper helper = new PlaceDbHelper(this);
+        PlaceDbHelper helper = new PlaceDbHelper(this, new SqliteDbUtility(this));
         helper.add(
+                new PlaceModel(
+                        0,
                 this.titleView.getText().toString(),
-                "",
                 this.imageView.getImageURL(),
                 this.descriptionView.getText().toString(),
                 this.creatorView.getText().toString(),
                 this.locationName.getText().toString(),
-                "",
-                "",
-                ""
-                );
+                new Location("",
+                        new GeoOrientation(0, 0, 0))));
 
         playAlertTone(this);
     }
