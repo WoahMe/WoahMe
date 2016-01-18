@@ -1,6 +1,8 @@
 package woahme.teamwork.com.woahme;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ public class DetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.titleView = (TextView) findViewById(R.id.place_details_title);
         this.imageView = (NetworkImageView) findViewById(R.id.place_details_image);
