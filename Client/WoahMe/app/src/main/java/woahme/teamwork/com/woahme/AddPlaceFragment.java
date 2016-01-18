@@ -148,7 +148,8 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                 try {
                     String success = response.get("success").toString();
                     if (!Boolean.parseBoolean(success)) {
-                        // Handle error
+                        Notificator.Notify(getContext(), "WoahMe", "We messed something up. Sorry!");
+                        return;
                     } else {
                         List<ImgurResponseModel> items =
                             HttpUtils.ParseJsonResponse(
@@ -157,6 +158,10 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
 
                         String imgurPhotoUrl = items.get(0).getLink();
                         String cityName = getCityName();
+                        if (cityName == null) {
+                            Notificator.Notify(getContext(), "WoahMe", "There is something wrong with the GPS.");
+                            return;
+                        }
                         String title = titleView.getText().toString();
                         String description = descriptionView.getText().toString();
                         String creator = SharedPreferencesManager.getUsername(getContext());
@@ -185,6 +190,10 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                 return addresses.get(0).getLocality();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+                Notificator.Notify(getContext(), "WoahMe", "There is something wrong with the GPS.");
+                return null;
             }
         } else {
             gps.showSettingsAlert();
@@ -203,6 +212,10 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(JSONObject response) {
                         Notificator.Notify(getContext(), "WoahMe", "Great job! You did it!");
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_fragment, new PlacesListFragment())
+                                .commit();
                     }
                 },
                 SingletonRequestQueue.GetDefaultErrorListener()
