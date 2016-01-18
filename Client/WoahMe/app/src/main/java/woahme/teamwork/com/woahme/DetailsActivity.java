@@ -45,9 +45,9 @@ public class DetailsActivity extends AppCompatActivity
 
         titleView.setText(detailsBundle.getString("placeTitle"));
         imageView.setImageUrl(detailsBundle.getString("placeImage"), SingletonRequestQueue.getInstance(this).getImageLoader());
-        descriptionView.setText("More about the place:\n" + detailsBundle.getString("placeDescription"));
-        creatorView.setText("By: " + detailsBundle.getString("placeCreator"));
-        locationName.setText("Where: " + detailsBundle.getString("placeLocationName"));
+        descriptionView.setText(detailsBundle.getString("placeDescription"));
+        creatorView.setText(detailsBundle.getString("placeCreator"));
+        locationName.setText(detailsBundle.getString("placeLocationName") + ",");
 
         // WHEN THE USER SWIPES DOWN OR DOES SOME FUNKY GESTURE => FINISH() ACTIVITY!
     }

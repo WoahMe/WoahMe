@@ -32,7 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="35sp"
-                android:id="@+id/place_details_location_name"/>
+                android:id="@+id/place_details_location_name"
+                android:textColor="@color/footer"/>
 
             <TextView
                 android:layout_width="match_parent"

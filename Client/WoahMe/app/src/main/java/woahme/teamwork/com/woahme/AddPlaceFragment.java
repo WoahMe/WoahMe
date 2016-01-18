@@ -86,7 +86,6 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                 Notificator.Notify(getContext(), "WoahMe", "Please enter a description.");
                 return;
             }
-            morphToSuccess(button, 1000);
 
             uploadToImgur(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
@@ -166,6 +165,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
                         String description = descriptionView.getText().toString();
                         String creator = SharedPreferencesManager.getUsername(getContext());
 
+                        morphToSuccess(button, 1000);
                         UploadPlace(imgurPhotoUrl, cityName, title, description, creator);
                     }
                 } catch (JSONException e) {
