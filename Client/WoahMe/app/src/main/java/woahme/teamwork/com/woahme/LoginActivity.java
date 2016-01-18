@@ -58,16 +58,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         registerView.setOnClickListener(this);
 
         YoYo.with(Techniques.Tada)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.input_email));
         YoYo.with(Techniques.Bounce)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.input_password));
         YoYo.with(Techniques.Wave)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.btn_login));
         YoYo.with(Techniques.Wobble)
-                .duration(700)
+                .duration(2000)
                 .playOn(this.findViewById(R.id.link_register));
 
         context = this;
@@ -143,9 +143,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         HttpUtils.ParseJsonResponse(response.toString(), LoginResponseModel.class);
 
                 String token = items.get(0).getToken();
-
-                SharedPreferencesManager.setToken(getBaseContext(), token);
-                Log.e("token", token);
+                String username = items.get(0).getUsername();
+                SharedPreferencesManager.setToken(getApplicationContext(), token);
+                SharedPreferencesManager.setUsername(getApplicationContext(), username);
                 finish();
             }
         };
