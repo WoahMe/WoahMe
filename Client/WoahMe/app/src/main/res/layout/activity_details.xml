@@ -40,5 +40,11 @@
                 android:textSize="40sp"
                 android:id="@+id/place_details_creator"
                 android:textColor="@color/footer"/>
+
+            <Button
+                android:id="@+id/mark_visited_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mark visited"/>
         </LinearLayout>
 </ScrollView>

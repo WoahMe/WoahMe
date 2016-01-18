@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.support.annotation.RequiresPermission;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import java.lang.reflect.Array;
@@ -17,6 +18,7 @@ import woahme.teamwork.com.woahme.MainActivity;
 import woahme.teamwork.com.woahme.Models.GeoOrientation;
 import woahme.teamwork.com.woahme.Models.Location;
 import woahme.teamwork.com.woahme.Models.PlaceModel;
+import woahme.teamwork.com.woahme.PlacesListFragment;
 import woahme.teamwork.com.woahme.Storage.Contracts.PlaceContract;
 
 public class PlaceDbHelper extends SQLiteOpenHelper {
@@ -98,16 +100,16 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
                 values);
     }
 
-    public AsyncTask readAsync(MainActivity actovity) {
-        ReadAsyncTask task = new ReadAsyncTask(actovity);
+    public AsyncTask readAsync(PlacesListFragment fragment) {
+        ReadAsyncTask task = new ReadAsyncTask(fragment);
         return task;
     }
 
     private class ReadAsyncTask extends AsyncTask {
-        MainActivity activity;
-        public ReadAsyncTask(MainActivity activity) {
+        PlacesListFragment fragment;
+        public ReadAsyncTask(PlacesListFragment fragment) {
             super();
-            this.activity = activity;
+            this.fragment = fragment;
         };
 
         @Override
@@ -202,6 +204,7 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         @Override
         protected void onPostExecute(Object result) {
             Log.e("TASK", "INPOST");
+            this.fragment.displayVisited((ArrayList<PlaceModel>) result);
         }
     }
 }

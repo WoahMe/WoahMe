@@ -16,13 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-
-import woahme.teamwork.com.woahme.Models.PlaceModel;
-import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
-import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
-import woahme.teamwork.com.woahme.Utilities.Notificator;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

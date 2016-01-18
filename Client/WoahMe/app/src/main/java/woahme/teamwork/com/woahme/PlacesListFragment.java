@@ -3,11 +3,13 @@ package woahme.teamwork.com.woahme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -23,28 +25,29 @@ import java.util.ArrayList;
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.PlaceModel;
 import woahme.teamwork.com.woahme.Models.PlaceResponseModel;
+import woahme.teamwork.com.woahme.Storage.PlaceDbHelper;
 
 public class PlacesListFragment extends Fragment
-        implements ListView.OnItemLongClickListener{
+        implements ListView.OnItemLongClickListener,
+        Button.OnClickListener,
+        Response.Listener<JSONObject>{
 
     private ListView coolPlacesList;
     private ArrayAdapter adapter;
-    private Response.Listener<JSONObject> placesResponseListener = new Response.Listener<JSONObject>() {
-        @Override
-        public void onResponse(JSONObject response) {
-            Gson gson = new Gson();
-            Type placesListType = new TypeToken<PlaceResponseModel>(){}.getType();
-            PlaceResponseModel placesResponse = gson.fromJson(response.toString(), placesListType);
+    private boolean isInVisited;
 
-            adapter.addAll(placesResponse.getPlaces());
-            coolPlacesList.setAdapter(adapter);
-            coolPlacesList.setOnItemLongClickListener(PlacesListFragment.this);
-            adapter.notifyDataSetChanged();
-        }
-    };
+    public void displayVisited(ArrayList<PlaceModel> visited) {
+        this.adapter.clear();
+        this.adapter.addAll(visited);
+        this.adapter.notifyDataSetChanged();
+        Log.e("PlacesListFragment", "Finished: display visited");
+    }
 
     public PlacesListFragment() {
+        isInVisited = false;
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -54,14 +57,10 @@ public class PlacesListFragment extends Fragment
         coolPlacesList = (ListView) view.findViewById(R.id.cool_places_list);
         adapter = new PlacesListAdapter(getContext(), R.layout.fragment_places_list_item, new ArrayList<PlaceModel>());
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                Endpoints.PlacesEndPoint,
-                placesResponseListener,
-                SingletonRequestQueue.GetDefaultErrorListener());
+        listPlacesFromServer();
 
-        SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);
-
+        Button change_list = (Button) view.findViewById(R.id.change_list);
+        change_list.setOnClickListener(PlacesListFragment.this);
         return view;
     }
 
@@ -83,5 +82,43 @@ public class PlacesListFragment extends Fragment
 
         startActivity(detailsIntent);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Button change_list = (Button) v.findViewById(R.id.change_list);
+        if (this.isInVisited) {
+            Log.e("GET NEW", "CLICKED");
+            listPlacesFromServer();
+            change_list.setText("List Visited Places");
+            this.isInVisited = false;
+        } else {
+            PlaceDbHelper helper = new PlaceDbHelper(getContext());
+            helper.readAsync(PlacesListFragment.this).execute();
+            change_list.setText("List New Places");
+            this.isInVisited = true;
+        }
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Gson gson = new Gson();
+        Type placesListType = new TypeToken<PlaceResponseModel>(){}.getType();
+        PlaceResponseModel placesResponse = gson.fromJson(response.toString(), placesListType);
+        this.adapter.clear();
+        this.adapter.addAll(placesResponse.getPlaces());
+        this.coolPlacesList.setAdapter(adapter);
+        this.coolPlacesList.setOnItemLongClickListener(PlacesListFragment.this);
+        this.adapter.notifyDataSetChanged();
+    }
+
+    private void listPlacesFromServer() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                Endpoints.PlacesEndPoint,
+                PlacesListFragment.this,
+                SingletonRequestQueue.GetDefaultErrorListener());
+
+        SingletonRequestQueue.getInstance(this.getActivity()).addToRequestQueue(jsObjRequest);
     }
 }
