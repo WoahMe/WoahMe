@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import woahme.teamwork.com.woahme.Http.SingletonRequestQueue;
 import woahme.teamwork.com.woahme.Models.GeoOrientation;
 import woahme.teamwork.com.woahme.Models.Location;
@@ -30,10 +33,25 @@ public class DetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_details);
 
         this.titleView = (TextView) findViewById(R.id.place_details_title);
+        YoYo.with(Techniques.BounceInLeft)
+                .duration(4000)
+                .playOn(this.findViewById(R.id.place_details_title));
         this.imageView = (NetworkImageView) findViewById(R.id.place_details_image);
+        YoYo.with(Techniques.BounceInLeft)
+                .duration(4000)
+                .playOn(this.findViewById(R.id.place_details_image));
         this.descriptionView = (TextView) findViewById(R.id.place_details_description);
+        YoYo.with(Techniques.BounceInRight)
+                .duration(4000)
+                .playOn(this.findViewById(R.id.place_details_description));
         this.creatorView = (TextView) findViewById(R.id.place_details_creator);
+        YoYo.with(Techniques.BounceInLeft)
+                .duration(4000)
+                .playOn(this.findViewById(R.id.place_details_creator));
         this.locationName = (TextView) findViewById(R.id.place_details_location_name);
+        YoYo.with(Techniques.BounceInRight)
+                .duration(4000)
+                .playOn(this.findViewById(R.id.place_details_location_name));
 
         Bundle detailsBundle = getIntent().getExtras();
 

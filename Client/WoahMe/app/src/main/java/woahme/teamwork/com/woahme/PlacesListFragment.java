@@ -2,6 +2,7 @@ package woahme.teamwork.com.woahme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -72,15 +75,28 @@ public class PlacesListFragment extends Fragment
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        PlaceModel selectedPlace = (PlaceModel) parent.getAdapter().getItem(position);
-        Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
-        detailsIntent.putExtra("placeTitle", selectedPlace.getTitle());
-        detailsIntent.putExtra("placeDescription", selectedPlace.getImageDescription());
-        detailsIntent.putExtra("placeImage", selectedPlace.getImageSource());
-        detailsIntent.putExtra("placeCreator", selectedPlace.getCreator());
-        detailsIntent.putExtra("placeLocationName", selectedPlace.getLocation().getName());
+        final AdapterView<?> viewParent = parent;
+        final int viewPosition = position;
+        YoYo.with(Techniques.Tada)
+                .duration(1000)
+                .playOn(view);
 
-        startActivity(detailsIntent);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                PlaceModel selectedPlace = (PlaceModel) viewParent.getAdapter().getItem(viewPosition);
+                Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
+                detailsIntent.putExtra("placeTitle", selectedPlace.getTitle());
+                detailsIntent.putExtra("placeDescription", selectedPlace.getImageDescription());
+                detailsIntent.putExtra("placeImage", selectedPlace.getImageSource());
+                detailsIntent.putExtra("placeCreator", selectedPlace.getCreator());
+                detailsIntent.putExtra("placeLocationName", selectedPlace.getLocation().getName());
+
+                startActivity(detailsIntent);
+
+            }
+        }, 2000);
+
         return true;
     }
 
