@@ -27,6 +27,10 @@ public class PlaceDbHelper {
         return task;
     }
 
+    public void Upgrade() {
+        this.dbUtility.onUpgrade(this.dbUtility.getWritableDatabase(), 2, 1);
+    }
+
     private class ReadAsyncTask extends AsyncTask {
         PlacesListFragment fragment;
         public ReadAsyncTask(PlacesListFragment fragment) {
