@@ -44,26 +44,29 @@ public class PlacesListAdapter extends ArrayAdapter<PlaceModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+
         View view = convertView;
         PlaceModel currentItem = items.get(position);
         if (view == null) {
             Log.i("IMAGE URL: ", currentItem.getImageSource());
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(this.resource, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.coolPlaceImage = (NetworkImageView) view.findViewById(R.id.cool_place_image);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
 
-        NetworkImageView coolPlaceImage = (NetworkImageView) view.findViewById(R.id.cool_place_image);
-        coolPlaceImage.setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(context).getImageLoader());
-
-        Log.i("IMAGE URL: ", currentItem.getImageSource());
+        viewHolder.coolPlaceImage
+                .setImageUrl(currentItem.getImageSource(), SingletonRequestQueue.getInstance(context).getImageLoader());
 
         return view;
     }
 
     static class ViewHolder {
-        GridLayout layout;
-        //NetworkImageView image;
-        TextView title;
-        //int id;
+        NetworkImageView coolPlaceImage;
     }
 }
