@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import woahme.teamwork.com.woahme.Utilities.SharedPreferencesManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fab.setVisibility(View.INVISIBLE);
                 ReplaceFragment(R.id.main_fragment, new AddPlaceFragment());
             }
         });
@@ -47,10 +49,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment, new PlacesListFragment())
-                .commit();
+        ReplaceFragment(R.id.main_fragment, new PlacesListFragment());
     }
 
     @Override
@@ -74,6 +73,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+            SharedPreferencesManager.deletePrefs(getApplicationContext());
+            recreate();
             return true;
         }
 
@@ -105,6 +110,7 @@ public class MainActivity extends AppCompatActivity
     public void ReplaceFragment(int container, Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(container, fragment)
                 .commit();
     }
